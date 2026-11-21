@@ -41,6 +41,7 @@ import com.oybek.webapphub.model.SniffedMedia
 import com.oybek.webapphub.util.AdBlocker
 import com.oybek.webapphub.util.MediaSniffer
 import com.oybek.webapphub.util.Strings
+import org.json.JSONArray
 import kotlin.math.abs
 
 class WebViewActivity : AppCompatActivity() {
@@ -123,13 +124,16 @@ class WebViewActivity : AppCompatActivity() {
         }
 
         binding.webView.setDownloadListener { url, userAgent, _, mimeType, _ ->
-            val fileName = Uri.parse(url).lastPathSegment?.takeIf { it.isNotBlank() }
-                ?: "dosya_${System.currentTimeMillis()}"
+            val parsedUri = Uri.parse(url)
+            val fileName = parsedUri.lastPathSegment?.takeIf { it.isNotBlank() }
+                ?: ("dosya_" + System.currentTimeMillis())
+            val safeMime = mimeType ?: "*/*"
+            val isMedia = safeMime.startsWith("video") || safeMime.startsWith("audio")
             val media = SniffedMedia(
                 url = url,
                 fileName = fileName,
-                mimeType = mimeType ?: "*/*",
-                isVideoOrAudio = (mimeType ?: "").startsWith("video") || (mimeType ?: "").startsWith("audio")
+                mimeType = safeMime,
+                isVideoOrAudio = isMedia
             )
             addSniffedMedia(media)
             MediaSniffer.sendToIdmOrSystem(this, media, userAgent)
@@ -141,13 +145,15 @@ class WebViewActivity : AppCompatActivity() {
                 view: WebView?,
                 request: WebResourceRequest?
             ): WebResourceResponse? {
-                val reqUrl = request?.url?.toString() ?: return super.shouldInterceptRequest(view, request)
+                val reqUrl = request?.url?.toString()
+                    ?: return super.shouldInterceptRequest(view, request)
 
                 if (adBlockActive && AdBlocker.isAdUrl(reqUrl)) {
                     return AdBlocker.emptyResponse()
                 }
 
-                MediaSniffer.inspectUrl(reqUrl)?.let { detected ->
+                val detected = MediaSniffer.inspectUrl(reqUrl)
+                if (detected != null) {
                     runOnUiThread { addSniffedMedia(detected) }
                 }
 
@@ -300,13 +306,21 @@ class WebViewActivity : AppCompatActivity() {
         binding.webView.evaluateJavascript(js) { result ->
             if (result != null && result != "null") {
                 try {
-                    val cleaned = result.trim('"').replace("\"", """)
-                    val arr = org.json.JSONArray(cleaned)
+                    val trimmed = result.trim()
+                    val unquoted = if (trimmed.startsWith(""") && trimmed.endsWith(""") && trimmed.length >= 2) {
+                        trimmed.substring(1, trimmed.length - 1)
+                    } else {
+                        trimmed
+                    }
+                    val cleaned = unquoted.replace("\u0022", """).replace("\\u0022, "\u0022)
+                    val arr = JSONArray(cleaned)
                     for (i in 0 until arr.length()) {
                         val u = arr.getString(i)
+                        val fallbackName = Uri.parse(u).lastPathSegment?.takeIf { it.isNotBlank() }
+                            ?: "video_stream.mp4"
                         val media = MediaSniffer.inspectUrl(u) ?: SniffedMedia(
                             url = u,
-                            fileName = Uri.parse(u).lastPathSegment ?: "video_stream.mp4",
+                            fileName = fallbackName,
                             mimeType = "video/*",
                             isVideoOrAudio = true
                         )
@@ -325,23 +339,24 @@ class WebViewActivity : AppCompatActivity() {
     }
 
     private fun updateSnifferCounters() {
-        val currentLang = prefs.language
-        val itemCount = sniffedList.size
-        binding.btnOpenSniffer.text = "${Strings.get(currentLang, "idm_download")} ($itemCount)"
-        if (itemCount > 0) {
+        val langCode = prefs.language
+        val totalCount = sniffedList.size
+        val btnLabel = Strings.get(langCode, "idm_download")
+        binding.btnOpenSniffer.text = "$btnLabel ($totalCount)"
+        if (totalCount > 0) {
             binding.tvMediaCounterPill.visibility = View.VISIBLE
-            binding.tvMediaCounterPill.text = itemCount.toString()
+            binding.tvMediaCounterPill.text = totalCount.toString()
         } else {
             binding.tvMediaCounterPill.visibility = View.GONE
         }
     }
 
     private fun setupFloatingMenu() {
-        val currentLang = prefs.language
+        val langCode = prefs.language
         binding.tvMenuSiteTitle.text = siteName
-        binding.swMenuDesktop.text = Strings.get(currentLang, "desktop_mode")
-        binding.swMenuAdBlock.text = Strings.get(currentLang, "ad_blocker_toggle")
-        binding.btnNavHome.text = Strings.get(currentLang, "home")
+        binding.swMenuDesktop.text = Strings.get(langCode, "desktop_mode")
+        binding.swMenuAdBlock.text = Strings.get(langCode, "ad_blocker_toggle")
+        binding.btnNavHome.text = Strings.get(langCode, "home")
         binding.swMenuDesktop.isChecked = desktopActive
         binding.swMenuAdBlock.isChecked = adBlockActive
         updateSnifferCounters()
@@ -394,7 +409,7 @@ class WebViewActivity : AppCompatActivity() {
     }
 
     private fun showSnifferBottomSheet() {
-        val currentLang = prefs.language
+        val langCode = prefs.language
         val dialog = BottomSheetDialog(this)
         val view = layoutInflater.inflate(R.layout.bottom_sheet_sniffer, null)
 
@@ -404,19 +419,19 @@ class WebViewActivity : AppCompatActivity() {
         val tvEmpty = view.findViewById<TextView>(R.id.tvSnifferEmpty)
         val btnClear = view.findViewById<MaterialButton>(R.id.btnClearSniffer)
 
-        tvTitle.text = Strings.get(currentLang, "sniffer_title")
-        tvSub.text = Strings.get(currentLang, "sniffer_sub")
-        tvEmpty.text = Strings.get(currentLang, "sniffer_empty")
-        btnClear.text = Strings.get(currentLang, "clear_list")
+        tvTitle.text = Strings.get(langCode, "sniffer_title")
+        tvSub.text = Strings.get(langCode, "sniffer_sub")
+        tvEmpty.text = Strings.get(langCode, "sniffer_empty")
+        btnClear.text = Strings.get(langCode, "clear_list")
 
         val ua = if (desktopActive) desktopUserAgent else mobileUserAgent
         rv.layoutManager = LinearLayoutManager(this)
         rv.adapter = SniffedMediaAdapter(
             items = sniffedList,
-            lang = currentLang,
-            onDownloadIdm = { MediaSniffer.sendToIdmOrSystem(this, it, ua) },
-            onOpenPlayer = { MediaSniffer.openInExternalPlayer(this, it) },
-            onCopyLink = { MediaSniffer.copyLink(this, it.url, currentLang) }
+            lang = langCode,
+            onDownloadIdm = { item -> MediaSniffer.sendToIdmOrSystem(this, item, ua) },
+            onOpenPlayer = { item -> MediaSniffer.openInExternalPlayer(this, item) },
+            onCopyLink = { item -> MediaSniffer.copyLink(this, item.url, langCode) }
         )
 
         tvEmpty.visibility = if (sniffedList.isEmpty()) View.VISIBLE else View.GONE
@@ -494,21 +509,23 @@ class WebViewActivity : AppCompatActivity() {
                         val height = v.height.coerceAtLeast(1).toFloat()
                         val width = v.width.coerceAtLeast(1).toFloat()
                         val deltaRatio = dy / (height * 0.75f)
-                        val gestureLang = prefs.language
+                        val activeLang = prefs.language
 
                         if (startX < width / 2f) {
                             val newBright = (startBrightness + deltaRatio).coerceIn(0.05f, 1.0f)
                             val lp = window.attributes
                             lp.screenBrightness = newBright
                             window.attributes = lp
-                            val brightPct = (newBright * 100).toInt()
-                            showFeedback("☀ ${Strings.get(gestureLang, "brightness")}: %$brightPct")
+                            val brightPercent = (newBright * 100).toInt()
+                            val brightLabel = Strings.get(activeLang, "brightness")
+                            showFeedback("☀ " + brightLabel + ": %" + brightPercent)
                         } else {
                             val maxVol = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
                             val newVol = (startVolume + (deltaRatio * maxVol).toInt()).coerceIn(0, maxVol)
                             audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, newVol, 0)
-                            val volPct = if (maxVol > 0) (newVol * 100) / maxVol else 0
-                            showFeedback("🔊 ${Strings.get(gestureLang, "volume")}: %$volPct")
+                            val volPercent = if (maxVol > 0) (newVol * 100) / maxVol else 0
+                            val volLabel = Strings.get(activeLang, "volume")
+                            showFeedback("🔊 " + volLabel + ": %" + volPercent)
                         }
                         return@setOnTouchListener true
                     }
