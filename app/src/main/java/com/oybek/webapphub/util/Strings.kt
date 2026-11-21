@@ -1,0 +1,62 @@
+package com.oybek.webapphub.util
+
+object Strings {
+    fun get(lang: String, key: String): String {
+        val uz = lang == "uz"
+        return when (key) {
+            "history" -> if (uz) "Tarix" else "Geçmiş"
+            "settings" -> if (uz) "Sozlamalar" else "Ayarlar"
+            "search_hint" -> if (uz) "Veb-sayt manzilini kiriting yoki qidiring..." else "Web sitesi adresi girin veya arayın..."
+            "my_apps" -> if (uz) "Ilovalarim" else "Uygulamalarım"
+            "empty_sites" -> if (uz) "Hali sayt qoʻshilmagan.
+Yuqoridagi + tugmasi orqali sayt qoʻshing." else "Henüz eklenmiş bir site yok.
+Sağ üstteki + butonuna basarak site ekleyebilirsiniz."
+            "ad_shield" -> if (uz) "Reklama qalqoni" else "Reklam Kalkanı"
+            "ad_off" -> if (uz) "Reklama filtri oʻchiq" else "Reklam Kapalı"
+            "add_site" -> if (uz) "Yangi sayt qoʻshish" else "Yeni Site Ekle"
+            "edit_site" -> if (uz) "Saytni tahrirlash" else "Siteyi Düzenle"
+            "site_name_hint" -> if (uz) "Sayt nomi (Masalan: YouTube, Kun.uz)" else "Site Adı (Örn. YouTube, Kun.uz)"
+            "site_url_hint" -> if (uz) "Veb-manzil (https://...)" else "Web Adresi (https://...)"
+            "ad_blocker_toggle" -> if (uz) "Reklama va Pop-up bloklovchi" else "Reklam ve Pop-up Engelleyici"
+            "desktop_mode" -> if (uz) "Kompyuter koʻrinishi (Desktop)" else "Masaüstü Görünümü (PC Modu)"
+            "add_shortcut" -> if (uz) "Bosh ekranga yorliq qoʻshish" else "Telefon Ana Ekranına Kısayol Ekle"
+            "save" -> if (uz) "Saqlash" else "Kaydet"
+            "cancel" -> if (uz) "Bekor qilish" else "İptal"
+            "delete" -> if (uz) "Oʻchirish" else "Sil"
+            "edit" -> if (uz) "Tahrirlash" else "Düzenle"
+            "home" -> if (uz) "Bosh ekran" else "Ana Ekran"
+            "idm_download" -> if (uz) "IDM yuklash" else "IDM İndir"
+            "sniffer_title" -> if (uz) "IDM Media Tutuvchi" else "IDM Medya Yakalayıcı"
+            "sniffer_sub" -> if (uz) "Topilgan video va fayllarni IDM yoki pleyerga yuboring." else "Yakalanan video, ses ve dosyaları IDM veya harici oynatıcıya aktarın."
+            "sniffer_empty" -> if (uz) "Hozircha media yoki fayl topilmadi.
+Sahifadagi videoni ishga tushiring." else "Henüz yakalanan bir medya veya dosya yok.
+Sayfadaki videoyu oynattığınızda bağlantılar burada görünür."
+            "clear_list" -> if (uz) "Roʻyxatni tozalash" else "Listeyi Temizle"
+            "download_with_idm" -> if (uz) "IDM bilan yuklash" else "IDM ile İndir"
+            "open_in_player" -> if (uz) "Pleyerda ochish" else "Oynatıcıda Aç"
+            "copy" -> if (uz) "Nusxalash" else "Kopyala"
+            "copied" -> if (uz) "Havola nusxalandi" else "Bağlantı kopyalandı"
+            "settings_header" -> if (uz) "Sozlamalar va Pleyer" else "Ayarlar ve Oynatıcı"
+            "lang_theme_sec" -> if (uz) "Til va Mavzu" else "Dil ve Tema"
+            "app_lang" -> if (uz) "Ilova tili" else "Uygulama Dili"
+            "app_theme" -> if (uz) "Koʻrinish mavzusi" else "Görünüm Teması"
+            "dark" -> if (uz) "Tungi" else "Karanlık"
+            "light" -> if (uz) "Kunduzgi" else "Aydınlık"
+            "global_adblock" -> if (uz) "Ichki reklama va pop-up qalqoni" else "Yerleşik Reklam ve Pop-up Kalkanı"
+            "video_sec" -> if (uz) "Fon ijrosi va Video ishoralari" else "Arka Planda Oynatma ve Video Jestleri"
+            "bg_continue" -> if (uz) "Ovozni fonda ijro etishda davom etish" else "Sesi arka planda oynatmaya devam et"
+            "bg_stop" -> if (uz) "Ilova yopilganda ovozni toʻxtatish" else "Uygulama alta alındığında sesi durdur"
+            "video_gestures" -> if (uz) "Toʻliq ekranda barmoq boshqaruvi (Chap: Yorugʻlik, Oʻng: Ovoz, Ikki marta bosish: ±10 soniya)" else "Tam Ekranda Jest Kontrolleri (Sol: Parlaklık, Sağ: Ses, Çift Dokunuş: ±10 sn)"
+            "auto_landscape" -> if (uz) "Toʻliq ekranda avtomatik gorizontal rejim" else "Tam Ekranda Otomatik Yatay (Landscape) Mod"
+            "save_changes" -> if (uz) "Oʻzgarishlarni saqlash" else "Değişiklikleri Kaydet"
+            "saved" -> if (uz) "Saqlandi" else "Kaydedildi"
+            "history_header" -> if (uz) "Koʻrish tarixi" else "Gezinme Geçmişi"
+            "clear" -> if (uz) "Tozalash" else "Temizle"
+            "history_empty" -> if (uz) "Hozircha koʻrish tarixi boʻsh." else "Henüz gezinme geçmişi bulunmuyor."
+            "brightness" -> if (uz) "Yorugʻlik" else "Parlaklık"
+            "volume" -> if (uz) "Ovoz" else "Ses"
+            "shortcut_added" -> if (uz) "Bosh ekranga yorliq yuborildi" else "Ana ekrana kısayol gönderildi"
+            else -> key
+        }
+    }
+}

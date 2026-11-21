@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/tvAppTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="WebApp Hub"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@id/btnLangToggle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnLangToggle"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginEnd="8dp"
+        android:minWidth="0dp"
+        android:paddingHorizontal="12dp"
+        android:text="TR"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/tvAppTitle"
+        app:layout_constraintEnd_toStartOf="@id/btnHistory"
+        app:layout_constraintTop_toTopOf="@id/tvAppTitle" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnHistory"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginEnd="8dp"
+        android:minWidth="0dp"
+        android:paddingHorizontal="12dp"
+        android:text="Geçmiş"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/tvAppTitle"
+        app:layout_constraintEnd_toStartOf="@id/btnSettings"
+        app:layout_constraintTop_toTopOf="@id/tvAppTitle" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnSettings"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:minWidth="0dp"
+        android:paddingHorizontal="12dp"
+        android:text="Ayarlar"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/tvAppTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tvAppTitle" />
+
+    <LinearLayout
+        android:id="@+id/searchBarContainer"
+        android:layout_width="0dp"
+        android:layout_height="52dp"
+        android:layout_marginTop="14dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvAppTitle">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            app:boxCornerRadiusBottomEnd="14dp"
+            app:boxCornerRadiusBottomStart="14dp"
+            app:boxCornerRadiusTopEnd="14dp"
+            app:boxCornerRadiusTopStart="14dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etQuickUrl"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="Web sitesi adresi girin veya arayın..."
+                android:imeOptions="actionGo"
+                android:inputType="textUri"
+                android:paddingVertical="8dp"
+                android:singleLine="true"
+                android:textSize="14sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnQuickGo"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="6dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:padding="0dp"
+            android:text="→"
+            android:textSize="18sp"
+            app:cornerRadius="14dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnAddSite"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:backgroundTint="@color/accent_green"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:padding="0dp"
+            android:text="+"
+            android:textSize="22sp"
+            app:cornerRadius="14dp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvSectionSites"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Uygulamalarım"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/searchBarContainer" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvSites"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:clipToPadding="false"
+        android:paddingBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvSectionSites" />
+
+    <TextView
+        android:id="@+id/tvEmptySites"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="24dp"
+        android:text="Henüz eklenmiş bir site yok.
+Sağ üstteki + butonuna basarak site ekleyebilirsiniz."
+        android:textSize="14sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvSectionSites" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

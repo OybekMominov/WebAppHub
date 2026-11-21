@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSettingsBack"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:padding="0dp"
+                android:text="←"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tvSettingsHeader"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_weight="1"
+                android:text="Ayarlar ve Oynatıcı"
+                android:textSize="21sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- Genel Görünüm ve Dil -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:cardCornerRadius="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/tvGeneralSection"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Dil ve Tema"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvLangLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Uygulama Dili"
+                    android:textSize="13sp" />
+
+                <RadioGroup
+                    android:id="@+id/rgLanguage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rbLangTr"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Türkçe" />
+
+                    <RadioButton
+                        android:id="@+id/rbLangUz"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Oʻzbekcha" />
+                </RadioGroup>
+
+                <TextView
+                    android:id="@+id/tvThemeLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Görünüm Teması"
+                    android:textSize="13sp" />
+
+                <RadioGroup
+                    android:id="@+id/rgTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rbThemeDark"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Karanlık" />
+
+                    <RadioButton
+                        android:id="@+id/rbThemeLight"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Aydınlık" />
+                </RadioGroup>
+
+                <com.google.android.material.materialswitch.MaterialSwitch
+                    android:id="@+id/swGlobalAdBlock"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Yerleşik Reklam ve Pop-up Kalkanı" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Video ve Arka Plan Oynatma Ayarları -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            app:cardCornerRadius="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/tvVideoSection"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Arka Planda Oynatma ve Video Jestleri"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <RadioGroup
+                    android:id="@+id/rgBackgroundAudio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
+                    <RadioButton
+                        android:id="@+id/rbBgPlayContinue"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Sesi arka planda oynatmaya devam et" />
+
+                    <RadioButton
+                        android:id="@+id/rbBgPlayStop"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Uygulama alta alındığında sesi durdur" />
+                </RadioGroup>
+
+                <com.google.android.material.materialswitch.MaterialSwitch
+                    android:id="@+id/swVideoGestures"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Tam Ekranda Jest Kontrolleri (Sol: Parlaklık, Sağ: Ses, Çift Dokunuş: ±10 sn)" />
+
+                <com.google.android.material.materialswitch.MaterialSwitch
+                    android:id="@+id/swAutoLandscape"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Tam Ekranda Otomatik Yatay (Landscape) Mod" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSaveSettings"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="18dp"
+            android:backgroundTint="@color/accent_blue"
+            android:text="Değişiklikleri Kaydet"
+            android:textSize="15sp"
+            app:cornerRadius="14dp" />
+
+    </LinearLayout>
+</ScrollView>
