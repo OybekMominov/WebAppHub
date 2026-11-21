@@ -192,14 +192,7 @@ class WebViewActivity : AppCompatActivity() {
                 }
 
                 if (prefs.backgroundAudioEnabled) {
-                    val bgScript = """
-                        (function() {
-                            try {
-                                Object.defineProperty(document, 'hidden', { get: function() { return false; } });
-                                Object.defineProperty(document, 'visibilityState', { get: function() { return 'visible'; } });
-                            } catch(e) {}
-                        })();
-                    """.trimIndent()
+                    val bgScript = "(function(){try{Object.defineProperty(document,'hidden',{get:function(){return false;}});Object.defineProperty(document,'visibilityState',{get:function(){return 'visible';}});}catch(e){}})();"
                     view?.evaluateJavascript(bgScript, null)
                 }
 
@@ -303,15 +296,7 @@ class WebViewActivity : AppCompatActivity() {
     }
 
     private fun scanDomMediaLinks() {
-        val js = """
-            (function() {
-                var urls = [];
-                document.querySelectorAll('video, source, audio').forEach(function(el) {
-                    if (el.src && el.src.startsWith('http')) urls.push(el.src);
-                });
-                return JSON.stringify(urls);
-            })();
-        """.trimIndent()
+        val js = "(function(){var urls=[];document.querySelectorAll('video, source, audio').forEach(function(el){if(el.src&&el.src.startsWith('http'))urls.push(el.src);});return JSON.stringify(urls);})();"
         binding.webView.evaluateJavascript(js) { result ->
             if (result != null && result != "null") {
                 try {

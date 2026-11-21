@@ -8,9 +8,7 @@ object Strings {
             "settings" -> if (uz) "Sozlamalar" else "Ayarlar"
             "search_hint" -> if (uz) "Veb-sayt manzilini kiriting yoki qidiring..." else "Web sitesi adresi girin veya arayın..."
             "my_apps" -> if (uz) "Ilovalarim" else "Uygulamalarım"
-            "empty_sites" -> if (uz) "Hali sayt qoʻshilmagan.
-Yuqoridagi + tugmasi orqali sayt qoʻshing." else "Henüz eklenmiş bir site yok.
-Sağ üstteki + butonuna basarak site ekleyebilirsiniz."
+            "empty_sites" -> if (uz) "Hali sayt qoʻshilmagan. Yuqoridagi + tugmasi orqali sayt qoʻshing." else "Henüz eklenmiş bir site yok. Sağ üstteki + butonuna basarak site ekleyebilirsiniz."
             "ad_shield" -> if (uz) "Reklama qalqoni" else "Reklam Kalkanı"
             "ad_off" -> if (uz) "Reklama filtri oʻchiq" else "Reklam Kapalı"
             "add_site" -> if (uz) "Yangi sayt qoʻshish" else "Yeni Site Ekle"
@@ -28,9 +26,7 @@ Sağ üstteki + butonuna basarak site ekleyebilirsiniz."
             "idm_download" -> if (uz) "IDM yuklash" else "IDM İndir"
             "sniffer_title" -> if (uz) "IDM Media Tutuvchi" else "IDM Medya Yakalayıcı"
             "sniffer_sub" -> if (uz) "Topilgan video va fayllarni IDM yoki pleyerga yuboring." else "Yakalanan video, ses ve dosyaları IDM veya harici oynatıcıya aktarın."
-            "sniffer_empty" -> if (uz) "Hozircha media yoki fayl topilmadi.
-Sahifadagi videoni ishga tushiring." else "Henüz yakalanan bir medya veya dosya yok.
-Sayfadaki videoyu oynattığınızda bağlantılar burada görünür."
+            "sniffer_empty" -> if (uz) "Hozircha media yoki fayl topilmadi. Sahifadagi videoni ishga tushiring." else "Henüz yakalanan bir medya veya dosya yok. Sayfadaki videoyu oynattığınızda bağlantılar burada görünür."
             "clear_list" -> if (uz) "Roʻyxatni tozalash" else "Listeyi Temizle"
             "download_with_idm" -> if (uz) "IDM bilan yuklash" else "IDM ile İndir"
             "open_in_player" -> if (uz) "Pleyerda ochish" else "Oynatıcıda Aç"
