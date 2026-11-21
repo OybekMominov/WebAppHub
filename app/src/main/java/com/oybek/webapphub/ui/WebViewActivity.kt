@@ -325,23 +325,23 @@ class WebViewActivity : AppCompatActivity() {
     }
 
     private fun updateSnifferCounters() {
-        val lang = prefs.language
-        val count = sniffedList.size
-        binding.btnOpenSniffer.text = "${Strings.get(lang, "idm_download")} ($count)"
-        if (count > 0) {
+        val currentLang = prefs.language
+        val itemCount = sniffedList.size
+        binding.btnOpenSniffer.text = "${Strings.get(currentLang, "idm_download")} ($itemCount)"
+        if (itemCount > 0) {
             binding.tvMediaCounterPill.visibility = View.VISIBLE
-            binding.tvMediaCounterPill.text = count.toString()
+            binding.tvMediaCounterPill.text = itemCount.toString()
         } else {
             binding.tvMediaCounterPill.visibility = View.GONE
         }
     }
 
     private fun setupFloatingMenu() {
-        val lang = prefs.language
+        val currentLang = prefs.language
         binding.tvMenuSiteTitle.text = siteName
-        binding.swMenuDesktop.text = Strings.get(lang, "desktop_mode")
-        binding.swMenuAdBlock.text = Strings.get(lang, "ad_blocker_toggle")
-        binding.btnNavHome.text = Strings.get(lang, "home")
+        binding.swMenuDesktop.text = Strings.get(currentLang, "desktop_mode")
+        binding.swMenuAdBlock.text = Strings.get(currentLang, "ad_blocker_toggle")
+        binding.btnNavHome.text = Strings.get(currentLang, "home")
         binding.swMenuDesktop.isChecked = desktopActive
         binding.swMenuAdBlock.isChecked = adBlockActive
         updateSnifferCounters()
@@ -394,7 +394,7 @@ class WebViewActivity : AppCompatActivity() {
     }
 
     private fun showSnifferBottomSheet() {
-        val lang = prefs.language
+        val currentLang = prefs.language
         val dialog = BottomSheetDialog(this)
         val view = layoutInflater.inflate(R.layout.bottom_sheet_sniffer, null)
 
@@ -404,19 +404,19 @@ class WebViewActivity : AppCompatActivity() {
         val tvEmpty = view.findViewById<TextView>(R.id.tvSnifferEmpty)
         val btnClear = view.findViewById<MaterialButton>(R.id.btnClearSniffer)
 
-        tvTitle.text = Strings.get(lang, "sniffer_title")
-        tvSub.text = Strings.get(lang, "sniffer_sub")
-        tvEmpty.text = Strings.get(lang, "sniffer_empty")
-        btnClear.text = Strings.get(lang, "clear_list")
+        tvTitle.text = Strings.get(currentLang, "sniffer_title")
+        tvSub.text = Strings.get(currentLang, "sniffer_sub")
+        tvEmpty.text = Strings.get(currentLang, "sniffer_empty")
+        btnClear.text = Strings.get(currentLang, "clear_list")
 
         val ua = if (desktopActive) desktopUserAgent else mobileUserAgent
         rv.layoutManager = LinearLayoutManager(this)
         rv.adapter = SniffedMediaAdapter(
             items = sniffedList,
-            lang = lang,
+            lang = currentLang,
             onDownloadIdm = { MediaSniffer.sendToIdmOrSystem(this, it, ua) },
             onOpenPlayer = { MediaSniffer.openInExternalPlayer(this, it) },
-            onCopyLink = { MediaSniffer.copyLink(this, it.url, lang) }
+            onCopyLink = { MediaSniffer.copyLink(this, it.url, currentLang) }
         )
 
         tvEmpty.visibility = if (sniffedList.isEmpty()) View.VISIBLE else View.GONE
@@ -494,21 +494,21 @@ class WebViewActivity : AppCompatActivity() {
                         val height = v.height.coerceAtLeast(1).toFloat()
                         val width = v.width.coerceAtLeast(1).toFloat()
                         val deltaRatio = dy / (height * 0.75f)
-                        val lang = prefs.language
+                        val gestureLang = prefs.language
 
                         if (startX < width / 2f) {
                             val newBright = (startBrightness + deltaRatio).coerceIn(0.05f, 1.0f)
                             val lp = window.attributes
                             lp.screenBrightness = newBright
                             window.attributes = lp
-                            val pct = (newBright * 100).toInt()
-                            showFeedback("☀ ${Strings.get(lang, "brightness")}: %$pct")
+                            val brightPct = (newBright * 100).toInt()
+                            showFeedback("☀ ${Strings.get(gestureLang, "brightness")}: %$brightPct")
                         } else {
                             val maxVol = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
                             val newVol = (startVolume + (deltaRatio * maxVol).toInt()).coerceIn(0, maxVol)
                             audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, newVol, 0)
-                            val pct = if (maxVol > 0) (newVol * 100) / maxVol else 0
-                            showFeedback("🔊 ${Strings.get(lang, "volume")}: %$pct")
+                            val volPct = if (maxVol > 0) (newVol * 100) / maxVol else 0
+                            showFeedback("🔊 ${Strings.get(gestureLang, "volume")}: %$volPct")
                         }
                         return@setOnTouchListener true
                     }
